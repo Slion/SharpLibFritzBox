@@ -21,7 +21,8 @@ namespace FritzBoxDemo
         private async void iButtonLogin_Click(object sender, EventArgs e)
         {
             FritzBox.Client client = new FritzBox.Client();
-            FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
+            //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
+            string sid = await client.GetSessionId(iTextBoxLogin.Text, iTextBoxPassword.Text);
         }
     }
 }
