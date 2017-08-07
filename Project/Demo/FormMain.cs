@@ -22,7 +22,19 @@ namespace FritzBoxDemo
         {
             FritzBox.Client client = new FritzBox.Client();
             //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
-            string sid = await client.GetSessionId(iTextBoxLogin.Text, iTextBoxPassword.Text);
+            await client.AuthenticateAsync(iTextBoxLogin.Text, iTextBoxPassword.Text);
+            iLabelSessionId.Text = "Session ID: " + client.SessionId;
+            FritzBox.DeviceList deviceList = await client.GetDeviceListAsync();
+            PopulateDevicesTree(deviceList);
+        }
+
+        void PopulateDevicesTree(FritzBox.DeviceList aDeviceList)
+        {
+            foreach (FritzBox.Device device in aDeviceList.Devices)
+            {
+                TreeNode deviceNode = iTreeViewDevices.Nodes.Add(device.Id, $"{device.Name} ( {device.ProductName} / {device.Manufacturer} )");
+                deviceNode.Tag = device;
+            }
         }
     }
 }
