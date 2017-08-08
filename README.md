@@ -1,3 +1,5 @@
+![Build status](https://slions.visualstudio.com/_apis/public/build/definitions/ad16bbd0-a884-4787-8e3a-85daf30cca16/6/badge)
+
 # AVM Fritz!Box library
 AVM FRITZ!Box home automation as a .NET library
 
