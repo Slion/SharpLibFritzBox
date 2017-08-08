@@ -27,6 +27,54 @@ namespace SharpLib.FritzBox.SmartHome
             DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aIdentifier"></param>
+        /// <returns></returns>
+        public async Task SetSwitchToggle(string aIdentifier)
+        {
+            // TODO: try the query before in case no login needed?
+            if (string.IsNullOrEmpty(SessionId))
+            {
+                throw new UnauthorizedAccessException("Need to authenticate first!");
+            }
+
+            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchtoggle&ain={aIdentifier}");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aIdentifier"></param>
+        /// <returns></returns>
+        public async Task SetSwitchOn(string aIdentifier)
+        {
+            // TODO: try the query before in case no login needed?
+            if (string.IsNullOrEmpty(SessionId))
+            {
+                throw new UnauthorizedAccessException("Need to authenticate first!");
+            }
+
+            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchon&ain={aIdentifier}");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aIdentifier"></param>
+        /// <returns></returns>
+        public async Task SetSwitchOff(string aIdentifier)
+        {
+            // TODO: try the query before in case no login needed?
+            if (string.IsNullOrEmpty(SessionId))
+            {
+                throw new UnauthorizedAccessException("Need to authenticate first!");
+            }
+
+            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchoff&ain={aIdentifier}");
+        }
+
 
         /// <summary>
         /// 

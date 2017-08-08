@@ -29,17 +29,6 @@ namespace SharpLib.FritzBox.SmartHome
 
         public bool Has(Function aFunction) { return ((Function)FunctionBitmask).HasFlag(aFunction); }
 
-        [Flags]
-        public enum Function
-        {
-            AlarmSensor = 1 << 4,
-            RadiatorRegulator = 1 << 6,
-            EnergyMonitor = 1 << 7,
-            TemperatureSensor = 1 << 8,
-            PowerPlugSwitch = 1 << 9,
-            DectRepeater = 1 << 10     
-        }
-
         [DataMember, XmlAttribute(Namespace = "", AttributeName = "fwversion")]
         public string FirmwareVersion { get; set; }
 

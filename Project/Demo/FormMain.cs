@@ -13,19 +13,22 @@ namespace FritzBoxDemo
 {
     public partial class FormMain : Form
     {
+        SmartHome.Client iClient;
+
         public FormMain()
         {
             InitializeComponent();
+            iClient = new SmartHome.Client();
         }
 
         private async void iButtonLogin_Click(object sender, EventArgs e)
         {
-            SmartHome.Client client = new SmartHome.Client();
             //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
-            await client.AuthenticateAsync(iTextBoxLogin.Text, iTextBoxPassword.Text);
-            iLabelSessionId.Text = "Session ID: " + client.SessionId;
-            SmartHome.DeviceList deviceList = await client.GetDeviceListAsync();
+            await iClient.AuthenticateAsync(iTextBoxLogin.Text, iTextBoxPassword.Text);
+            iLabelSessionId.Text = "Session ID: " + iClient.SessionId;
+            SmartHome.DeviceList deviceList = await iClient.GetDeviceListAsync();
             PopulateDevicesTree(deviceList);
+            //await client.SetSwitchToggle("08761 0250071");
         }
         
         /// <summary>
@@ -44,33 +47,118 @@ namespace FritzBoxDemo
                 deviceNode.Tag = device;
 
                 // Check the functions of that device
-                foreach (SmartHome.Device.Function f in Enum.GetValues(typeof(SmartHome.Device.Function)))
+                foreach (SmartHome.Function f in Enum.GetValues(typeof(SmartHome.Function)))
                 {
                     if (device.Has(f))
                     {
                         // Add a new node for each supported function
                         TreeNode functionNode = deviceNode.Nodes.Add(f.ToString());
-                        if (f == SmartHome.Device.Function.TemperatureSensor)
+                        if (f == SmartHome.Function.TemperatureSensor)
                         {
                             // Add temperature sensor data
                             functionNode.Nodes.Add($"{device.Temperature.Reading} °C");
                             functionNode.Nodes.Add($"Offset: {device.Temperature.OffsetReading} °C");
                         }
-                        else if (f == SmartHome.Device.Function.PowerPlugSwitch)
+                        else if (f == SmartHome.Function.SwitchSocket)
                         {
+                            // Add switch socket data
                             functionNode.Nodes.Add($"Mode: {device.Switch.Mode.ToString()}");
                             functionNode.Nodes.Add($"Switched {device.Switch.State.ToString()}");
                             functionNode.Nodes.Add($"Lock: {device.Switch.Lock.ToString()}");
                             functionNode.Nodes.Add($"Device lock: {device.Switch.DeviceLock.ToString()}");
                         }
-                        else if (f == SmartHome.Device.Function.RadiatorRegulator)
+                        else if (f == SmartHome.Function.RadiatorThermostat)
                         {
+                            // Add radiator thermostat data
                             functionNode.Nodes.Add($"Battery {device.Radiator.Battery.ToString()}");
                             functionNode.Nodes.Add($"Lock: {device.Radiator.Lock.ToString()}");
                             functionNode.Nodes.Add($"Device lock: {device.Radiator.DeviceLock.ToString()}");
                         }
+                        else if (f == SmartHome.Function.PowerMeter)
+                        {
+                            // Add power meter data
+                            functionNode.Nodes.Add($"Power: {device.PowerMeter.PowerInWatt}W");
+                            functionNode.Nodes.Add($"Energy: {device.PowerMeter.EnergyInKiloWattPerHour}kWh");
+                        }
+
                     }
                 }
+            }
+        }
+
+        private void iTreeViewDevices_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            iButtonSwitchToggle.Enabled = false;
+            iButtonSwitchOn.Enabled = false;
+            iButtonSwitchOff.Enabled = false;
+
+            if (e.Node == null
+                || !(e.Node.Tag is SmartHome.Device))
+            {
+                return;
+            }
+
+            SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
+            // Enable controls related to switch socket
+            if (device.Has(SmartHome.Function.SwitchSocket))
+            {
+                iButtonSwitchToggle.Enabled = true;
+                iButtonSwitchOn.Enabled = true;
+                iButtonSwitchOff.Enabled = true;
+            }
+
+        }
+
+        private void iTreeViewDevices_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+
+        }
+
+        private async void iButtonSwitchToggle_Click(object sender, EventArgs e)
+        {
+            if (iTreeViewDevices.SelectedNode==null
+                || !(iTreeViewDevices.SelectedNode.Tag is SmartHome.Device))
+            {
+                return;
+            }
+
+            // Toggle our switch if valid
+            SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
+            if (device.Has(SmartHome.Function.SwitchSocket))
+            {
+                await iClient.SetSwitchToggle(device.Identifier);
+            }
+        }
+
+        private async void iButtonSwitchOn_Click(object sender, EventArgs e)
+        {
+            if (iTreeViewDevices.SelectedNode == null
+                || !(iTreeViewDevices.SelectedNode.Tag is SmartHome.Device))
+            {
+                return;
+            }
+
+            // Switch on if valid
+            SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
+            if (device.Has(SmartHome.Function.SwitchSocket))
+            {
+                await iClient.SetSwitchOn(device.Identifier);
+            }
+        }
+
+        private async void iButtonSwitchOff_Click(object sender, EventArgs e)
+        {
+            if (iTreeViewDevices.SelectedNode == null
+                || !(iTreeViewDevices.SelectedNode.Tag is SmartHome.Device))
+            {
+                return;
+            }
+
+            // Switch off if valid
+            SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
+            if (device.Has(SmartHome.Function.SwitchSocket))
+            {
+                await iClient.SetSwitchOff(device.Identifier);
             }
         }
     }

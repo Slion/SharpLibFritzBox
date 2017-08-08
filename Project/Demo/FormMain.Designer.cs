@@ -35,6 +35,9 @@
             this.iLabelLogin = new System.Windows.Forms.Label();
             this.iTreeViewDevices = new System.Windows.Forms.TreeView();
             this.iLabelSessionId = new System.Windows.Forms.Label();
+            this.iButtonSwitchToggle = new System.Windows.Forms.Button();
+            this.iButtonSwitchOn = new System.Windows.Forms.Button();
+            this.iButtonSwitchOff = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // iButtonLogin
@@ -86,10 +89,13 @@
             this.iTreeViewDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.iTreeViewDevices.HideSelection = false;
             this.iTreeViewDevices.Location = new System.Drawing.Point(198, 36);
             this.iTreeViewDevices.Name = "iTreeViewDevices";
             this.iTreeViewDevices.Size = new System.Drawing.Size(496, 518);
             this.iTreeViewDevices.TabIndex = 3;
+            this.iTreeViewDevices.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.iTreeViewDevices_AfterSelect);
+            this.iTreeViewDevices.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.iTreeViewDevices_NodeMouseDoubleClick);
             // 
             // iLabelSessionId
             // 
@@ -100,12 +106,48 @@
             this.iLabelSessionId.TabIndex = 14;
             this.iLabelSessionId.Text = "Session ID:";
             // 
+            // iButtonSwitchToggle
+            // 
+            this.iButtonSwitchToggle.Enabled = false;
+            this.iButtonSwitchToggle.Location = new System.Drawing.Point(12, 109);
+            this.iButtonSwitchToggle.Name = "iButtonSwitchToggle";
+            this.iButtonSwitchToggle.Size = new System.Drawing.Size(102, 23);
+            this.iButtonSwitchToggle.TabIndex = 15;
+            this.iButtonSwitchToggle.Text = "Switch Toggle";
+            this.iButtonSwitchToggle.UseVisualStyleBackColor = true;
+            this.iButtonSwitchToggle.Click += new System.EventHandler(this.iButtonSwitchToggle_Click);
+            // 
+            // iButtonSwitchOn
+            // 
+            this.iButtonSwitchOn.Enabled = false;
+            this.iButtonSwitchOn.Location = new System.Drawing.Point(12, 138);
+            this.iButtonSwitchOn.Name = "iButtonSwitchOn";
+            this.iButtonSwitchOn.Size = new System.Drawing.Size(102, 23);
+            this.iButtonSwitchOn.TabIndex = 16;
+            this.iButtonSwitchOn.Text = "Switch On";
+            this.iButtonSwitchOn.UseVisualStyleBackColor = true;
+            this.iButtonSwitchOn.Click += new System.EventHandler(this.iButtonSwitchOn_Click);
+            // 
+            // iButtonSwitchOff
+            // 
+            this.iButtonSwitchOff.Enabled = false;
+            this.iButtonSwitchOff.Location = new System.Drawing.Point(12, 167);
+            this.iButtonSwitchOff.Name = "iButtonSwitchOff";
+            this.iButtonSwitchOff.Size = new System.Drawing.Size(102, 23);
+            this.iButtonSwitchOff.TabIndex = 17;
+            this.iButtonSwitchOff.Text = "Switch Off";
+            this.iButtonSwitchOff.UseVisualStyleBackColor = true;
+            this.iButtonSwitchOff.Click += new System.EventHandler(this.iButtonSwitchOff_Click);
+            // 
             // FormMain
             // 
             this.AcceptButton = this.iButtonLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(706, 566);
+            this.Controls.Add(this.iButtonSwitchOff);
+            this.Controls.Add(this.iButtonSwitchOn);
+            this.Controls.Add(this.iButtonSwitchToggle);
             this.Controls.Add(this.iLabelSessionId);
             this.Controls.Add(this.iTreeViewDevices);
             this.Controls.Add(this.iLabelLogin);
@@ -129,6 +171,9 @@
         private System.Windows.Forms.Label iLabelLogin;
         private System.Windows.Forms.TreeView iTreeViewDevices;
         private System.Windows.Forms.Label iLabelSessionId;
+        private System.Windows.Forms.Button iButtonSwitchToggle;
+        private System.Windows.Forms.Button iButtonSwitchOn;
+        private System.Windows.Forms.Button iButtonSwitchOff;
     }
 }
 

@@ -12,6 +12,17 @@ using System.Xml.Serialization;
 
 namespace SharpLib.FritzBox.SmartHome
 {
+    [Flags]
+    public enum Function
+    {
+        AlarmSensor = 1 << 4,
+        RadiatorThermostat = 1 << 6,
+        PowerMeter = 1 << 7,
+        TemperatureSensor = 1 << 8,
+        SwitchSocket = 1 << 9,
+        DectRepeater = 1 << 10
+    }
+
     public enum State
     {
         [XmlEnum(Name = "0")]

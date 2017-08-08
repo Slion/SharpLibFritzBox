@@ -19,10 +19,14 @@ namespace SharpLib.FritzBox.SmartHome
     public class PowerMeter
     {
         [DataMember, XmlElement(Namespace ="", ElementName = "power")]
-        public string Power { get; set; }
+        public int Power { get; set; }
+
+        public float PowerInWatt { get { return Power * 0.001f; } }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "energy")]
-        public string Energy { get; set; }
+        public int Energy { get; set; }
+
+        public float EnergyInKiloWattPerHour { get { return Energy * 0.001f; } }
 
     }
 
