@@ -46,6 +46,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="DeviceList.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="NextChange.cs" />
     <Compile Include="PowerMeter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

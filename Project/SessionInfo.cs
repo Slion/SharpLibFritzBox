@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpLib.FritzBox
+namespace SharpLib.FritzBox.SmartHome
 {
 
     [DataContract(Namespace = "")]

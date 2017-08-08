@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FritzBox = SharpLib.FritzBox;
+using SmartHome = SharpLib.FritzBox.SmartHome;
 
 namespace FritzBoxDemo
 {
@@ -20,20 +20,57 @@ namespace FritzBoxDemo
 
         private async void iButtonLogin_Click(object sender, EventArgs e)
         {
-            FritzBox.Client client = new FritzBox.Client();
+            SmartHome.Client client = new SmartHome.Client();
             //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
             await client.AuthenticateAsync(iTextBoxLogin.Text, iTextBoxPassword.Text);
             iLabelSessionId.Text = "Session ID: " + client.SessionId;
-            FritzBox.DeviceList deviceList = await client.GetDeviceListAsync();
+            SmartHome.DeviceList deviceList = await client.GetDeviceListAsync();
             PopulateDevicesTree(deviceList);
         }
-
-        void PopulateDevicesTree(FritzBox.DeviceList aDeviceList)
+        
+        /// <summary>
+        /// Populate our tree view with our devices information.
+        /// </summary>
+        /// <param name="aDeviceList"></param>
+        void PopulateDevicesTree(SmartHome.DeviceList aDeviceList)
         {
-            foreach (FritzBox.Device device in aDeviceList.Devices)
+            iTreeViewDevices.Nodes.Clear();
+
+            // For each device
+            foreach (SmartHome.Device device in aDeviceList.Devices)
             {
-                TreeNode deviceNode = iTreeViewDevices.Nodes.Add(device.Id, $"{device.Name} ( {device.ProductName} / {device.Manufacturer} )");
+                // Add a new node
+                TreeNode deviceNode = iTreeViewDevices.Nodes.Add(device.Id, $"{device.Name} - {device.ProductName} by {device.Manufacturer}");
                 deviceNode.Tag = device;
+
+                // Check the functions of that device
+                foreach (SmartHome.Device.Function f in Enum.GetValues(typeof(SmartHome.Device.Function)))
+                {
+                    if (device.Has(f))
+                    {
+                        // Add a new node for each supported function
+                        TreeNode functionNode = deviceNode.Nodes.Add(f.ToString());
+                        if (f == SmartHome.Device.Function.TemperatureSensor)
+                        {
+                            // Add temperature sensor data
+                            functionNode.Nodes.Add($"{device.Temperature.Reading} °C");
+                            functionNode.Nodes.Add($"Offset: {device.Temperature.OffsetReading} °C");
+                        }
+                        else if (f == SmartHome.Device.Function.PowerPlugSwitch)
+                        {
+                            functionNode.Nodes.Add($"Mode: {device.Switch.Mode.ToString()}");
+                            functionNode.Nodes.Add($"Switched {device.Switch.State.ToString()}");
+                            functionNode.Nodes.Add($"Lock: {device.Switch.Lock.ToString()}");
+                            functionNode.Nodes.Add($"Device lock: {device.Switch.DeviceLock.ToString()}");
+                        }
+                        else if (f == SmartHome.Device.Function.RadiatorRegulator)
+                        {
+                            functionNode.Nodes.Add($"Battery {device.Radiator.Battery.ToString()}");
+                            functionNode.Nodes.Add($"Lock: {device.Radiator.Lock.ToString()}");
+                            functionNode.Nodes.Add($"Device lock: {device.Radiator.DeviceLock.ToString()}");
+                        }
+                    }
+                }
             }
         }
     }

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SharpLib.FritzBox
+namespace SharpLib.FritzBox.SmartHome
 {
     /// <summary>
     /// Not sure why we need the data contract here since we use the XML serializer anyway.

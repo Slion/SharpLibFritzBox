@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SharpLib.FritzBox
+namespace SharpLib.FritzBox.SmartHome
 {
     /// <summary>
     /// Not sure why we need the data contract here since we use the XML serializer anyway.
@@ -34,13 +34,13 @@ namespace SharpLib.FritzBox
         /// Locked from UI/API
         /// </summary>
         [DataMember, XmlElement(Namespace = "", ElementName = "lock")]
-        public string Lock { get; set; }
+        public Lock Lock { get; set; }
 
         /// <summary>
         /// Lock from device.
         /// </summary>
         [DataMember, XmlElement(Namespace = "", ElementName = "devicelock")]
-        public string DeviceLock { get; set; }
+        public Lock DeviceLock { get; set; }
 
         public enum Error
         {
@@ -64,7 +64,7 @@ namespace SharpLib.FritzBox
         public Error ErrorCode { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "batterylow")]
-        public int BatteryLow { get; set; }
+        public Battery Battery { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "nextchange")]
         public NextChange NextChange { get; set; }

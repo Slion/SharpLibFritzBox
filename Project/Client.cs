@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SharpLib.FritzBox
+namespace SharpLib.FritzBox.SmartHome
 {
 
     /// <summary>
@@ -20,9 +20,9 @@ namespace SharpLib.FritzBox
 
         public string SessionId { get; private set; }
 
-        public Client()
+        public Client(string aBaseAddress = "http://fritz.box/")
         {
-            BaseAddress = new Uri("http://fritz.box/");
+            BaseAddress = new Uri(aBaseAddress);
             DefaultRequestHeaders.Accept.Clear();
             DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
         }

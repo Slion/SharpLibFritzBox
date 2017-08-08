@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SharpLib.FritzBox
+namespace SharpLib.FritzBox.SmartHome
 {
     /// <summary>
     /// Not sure why we need the data contract here since we use the XML serializer anyway.
@@ -19,14 +19,16 @@ namespace SharpLib.FritzBox
     public class Switch
     {
         [DataMember, XmlElement(Namespace ="", ElementName = "state")]
-        public string State { get; set; }
+        public State State { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "mode")]
-        public string Mode { get; set; }
+        public Mode Mode { get; set; }
+
+        [DataMember, XmlElement(Namespace = "", ElementName = "lock")]
+        public Lock Lock { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "devicelock")]
-        public string DeviceLock { get; set; }
-
+        public Lock DeviceLock { get; set; }
     }
 
 }

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace SharpLib.FritzBox
+namespace SharpLib.FritzBox.SmartHome
 {
     /// <summary>
     /// Not sure why we need the data contract here since we use the XML serializer anyway.
@@ -26,6 +26,19 @@ namespace SharpLib.FritzBox
 
         [DataMember, XmlAttribute(Namespace = "", AttributeName = "functionbitmask")]
         public uint FunctionBitmask { get; set; }
+
+        public bool Has(Function aFunction) { return ((Function)FunctionBitmask).HasFlag(aFunction); }
+
+        [Flags]
+        public enum Function
+        {
+            AlarmSensor = 1 << 4,
+            RadiatorRegulator = 1 << 6,
+            EnergyMonitor = 1 << 7,
+            TemperatureSensor = 1 << 8,
+            PowerPlugSwitch = 1 << 9,
+            DectRepeater = 1 << 10     
+        }
 
         [DataMember, XmlAttribute(Namespace = "", AttributeName = "fwversion")]
         public string FirmwareVersion { get; set; }
