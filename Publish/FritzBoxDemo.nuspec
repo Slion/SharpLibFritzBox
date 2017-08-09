@@ -25,13 +25,9 @@
         <file src="Mono.Cecil.Pdb.dll" target="lib\net45\Mono.Cecil.Pdb.dll" />
         <file src="Mono.Cecil.Rocks.dll" target="lib\net45\Mono.Cecil.Rocks.dll" />
         <file src="NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
+        <file src="SharpCompress.dll" target="lib\net45\SharpCompress.dll" />
         <file src="SharpLibFritzBox.dll" target="lib\net45\SharpLibFritzBox.dll" />
         <file src="Splat.dll" target="lib\net45\Splat.dll" />
         <file src="Squirrel.dll" target="lib\net45\Squirrel.dll" />
-		    <!-- Add Windows Visual Studio redist -->
-		    <!-- C Run-Time Libraries (CRT) -->
-		    <file src="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\x86\Microsoft.VC140.CRT\vcruntime140.dll" target="lib\net45\vcruntime140.dll" />
-		    <!-- Standard C++ Library -->
-		    <file src="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\x86\Microsoft.VC140.CRT\msvcp140.dll" target="lib\net45\msvcp140.dll" />				
     </files>
 </package>
