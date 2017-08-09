@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.iButtonLogin = new System.Windows.Forms.Button();
             this.iTextBoxLogin = new System.Windows.Forms.TextBox();
             this.iTextBoxPassword = new System.Windows.Forms.TextBox();
@@ -155,8 +156,10 @@
             this.Controls.Add(this.iTextBoxPassword);
             this.Controls.Add(this.iTextBoxLogin);
             this.Controls.Add(this.iButtonLogin);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.Text = "Fritz!Box Demo";
+            this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

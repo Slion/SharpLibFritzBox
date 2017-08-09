@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Squirrel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,49 @@ namespace FritzBoxDemo
         {
             InitializeComponent();
             iClient = new SmartHome.Client();
+        }
+
+        /// <summary>
+        /// Check for application update and ask the user to proceed if any.
+        /// </summary>
+        async void SquirrelUpdate()
+        {
+            // Check for Squirrel application update
+#if !DEBUG
+            ReleaseEntry release = null;
+            using (var mgr = new UpdateManager("http://publish.slions.net/FritzBoxDemo"))
+            {
+                //
+                UpdateInfo updateInfo = await mgr.CheckForUpdate();
+                if (updateInfo.ReleasesToApply.Any()) // Check if we have any update
+                {
+                    // We have an update ask our user if he wants it
+                    System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                    FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+                    string msg =    "New version available!" +
+                                    "\n\nCurrent version: " + updateInfo.CurrentlyInstalledVersion.Version +
+                                    "\nNew version: " + updateInfo.FutureReleaseEntry.Version +
+                                    "\n\nUpdate application now?";
+                    DialogResult dialogResult = MessageBox.Show(msg, fvi.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        // User wants it, do the update
+                        release = await mgr.UpdateApp();
+                    }
+                    else
+                    {
+                        // User cancel an update enable manual update option
+                        //iToolStripMenuItemUpdate.Visible = true;
+                    }
+                }
+            }
+
+            // Restart the app
+            if (release!=null)
+            {
+                UpdateManager.RestartApp();
+            }           
+#endif
         }
 
         private async void iButtonLogin_Click(object sender, EventArgs e)
@@ -160,6 +205,11 @@ namespace FritzBoxDemo
             {
                 await iClient.SetSwitchOff(device.Identifier);
             }
+        }
+
+        private void FormMain_Shown(object sender, EventArgs e)
+        {
+            SquirrelUpdate();
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- This NuGet package is designed to be used from MSBuild.
+	 Paths won't match when trying to open it with NuGet Package Manager.
+ -->
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>FritzBoxDemo</id>
+        <version>$version$</version>
+        <title>Fritz Box Demo</title>
+        <authors>Stephane Lenclud</authors>
+        <iconUrl>http://publish.slions.net/FritzBoxDemo/favicon.ico</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Fritz!Box Smart Home Demo.</description>
+        <copyright>Copyright (c) 2017, Stephane Lenclud</copyright>
+        <language>en-US</language>
+    </metadata>
+    <files>
+        <file src="DeltaCompressionDotNet.dll" target="lib\net45\DeltaCompressionDotNet.dll" />
+        <file src="DeltaCompressionDotNet.MsDelta.dll" target="lib\net45\DeltaCompressionDotNet.MsDelta.dll" />
+        <file src="DeltaCompressionDotNet.PatchApi.dll" target="lib\net45\DeltaCompressionDotNet.PatchApi.dll" />
+        <file src="FritzBoxDemo.exe" target="lib\net45\FritzBoxDemo.exe" />
+        <file src="FritzBoxDemo.exe.config" target="lib\net45\FritzBoxDemo.exe.config" />
+        <file src="Mono.Cecil.dll" target="lib\net45\Mono.Cecil.dll" />
+        <file src="Mono.Cecil.Mdb.dll" target="lib\net45\Mono.Cecil.Mdb.dll" />
+        <file src="Mono.Cecil.Pdb.dll" target="lib\net45\Mono.Cecil.Pdb.dll" />
+        <file src="Mono.Cecil.Rocks.dll" target="lib\net45\Mono.Cecil.Rocks.dll" />
+        <file src="NuGet.Squirrel.dll" target="lib\net45\NuGet.Squirrel.dll" />
+        <file src="SharpLibFritzBox.dll" target="lib\net45\SharpLibFritzBox.dll" />
+        <file src="Splat.dll" target="lib\net45\Splat.dll" />
+        <file src="Squirrel.dll" target="lib\net45\Squirrel.dll" />
+		    <!-- Add Windows Visual Studio redist -->
+		    <!-- C Run-Time Libraries (CRT) -->
+		    <file src="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\x86\Microsoft.VC140.CRT\vcruntime140.dll" target="lib\net45\vcruntime140.dll" />
+		    <!-- Standard C++ Library -->
+		    <file src="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\x86\Microsoft.VC140.CRT\msvcp140.dll" target="lib\net45\msvcp140.dll" />				
+    </files>
+</package>
