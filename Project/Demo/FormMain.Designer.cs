@@ -39,12 +39,17 @@
             this.iButtonSwitchToggle = new System.Windows.Forms.Button();
             this.iButtonSwitchOn = new System.Windows.Forms.Button();
             this.iButtonSwitchOff = new System.Windows.Forms.Button();
+            this.iMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.iToolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.iToolStripMenuItemUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.iMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // iButtonLogin
             // 
             this.iButtonLogin.AccessibleRole = System.Windows.Forms.AccessibleRole.MenuBar;
-            this.iButtonLogin.Location = new System.Drawing.Point(12, 531);
+            this.iButtonLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.iButtonLogin.Location = new System.Drawing.Point(12, 447);
             this.iButtonLogin.Name = "iButtonLogin";
             this.iButtonLogin.Size = new System.Drawing.Size(75, 23);
             this.iButtonLogin.TabIndex = 2;
@@ -54,14 +59,14 @@
             // 
             // iTextBoxLogin
             // 
-            this.iTextBoxLogin.Location = new System.Drawing.Point(71, 10);
+            this.iTextBoxLogin.Location = new System.Drawing.Point(74, 33);
             this.iTextBoxLogin.Name = "iTextBoxLogin";
             this.iTextBoxLogin.Size = new System.Drawing.Size(100, 20);
             this.iTextBoxLogin.TabIndex = 0;
             // 
             // iTextBoxPassword
             // 
-            this.iTextBoxPassword.Location = new System.Drawing.Point(71, 36);
+            this.iTextBoxPassword.Location = new System.Drawing.Point(74, 59);
             this.iTextBoxPassword.Name = "iTextBoxPassword";
             this.iTextBoxPassword.Size = new System.Drawing.Size(100, 20);
             this.iTextBoxPassword.TabIndex = 1;
@@ -70,7 +75,7 @@
             // iLabelPassword
             // 
             this.iLabelPassword.AutoSize = true;
-            this.iLabelPassword.Location = new System.Drawing.Point(9, 39);
+            this.iLabelPassword.Location = new System.Drawing.Point(12, 62);
             this.iLabelPassword.Name = "iLabelPassword";
             this.iLabelPassword.Size = new System.Drawing.Size(56, 13);
             this.iLabelPassword.TabIndex = 3;
@@ -79,7 +84,7 @@
             // iLabelLogin
             // 
             this.iLabelLogin.AutoSize = true;
-            this.iLabelLogin.Location = new System.Drawing.Point(9, 13);
+            this.iLabelLogin.Location = new System.Drawing.Point(12, 36);
             this.iLabelLogin.Name = "iLabelLogin";
             this.iLabelLogin.Size = new System.Drawing.Size(36, 13);
             this.iLabelLogin.TabIndex = 4;
@@ -93,7 +98,7 @@
             this.iTreeViewDevices.HideSelection = false;
             this.iTreeViewDevices.Location = new System.Drawing.Point(198, 36);
             this.iTreeViewDevices.Name = "iTreeViewDevices";
-            this.iTreeViewDevices.Size = new System.Drawing.Size(496, 518);
+            this.iTreeViewDevices.Size = new System.Drawing.Size(477, 436);
             this.iTreeViewDevices.TabIndex = 3;
             this.iTreeViewDevices.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.iTreeViewDevices_AfterSelect);
             this.iTreeViewDevices.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.iTreeViewDevices_NodeMouseDoubleClick);
@@ -101,7 +106,7 @@
             // iLabelSessionId
             // 
             this.iLabelSessionId.AutoSize = true;
-            this.iLabelSessionId.Location = new System.Drawing.Point(12, 77);
+            this.iLabelSessionId.Location = new System.Drawing.Point(15, 100);
             this.iLabelSessionId.Name = "iLabelSessionId";
             this.iLabelSessionId.Size = new System.Drawing.Size(61, 13);
             this.iLabelSessionId.TabIndex = 14;
@@ -110,7 +115,7 @@
             // iButtonSwitchToggle
             // 
             this.iButtonSwitchToggle.Enabled = false;
-            this.iButtonSwitchToggle.Location = new System.Drawing.Point(12, 109);
+            this.iButtonSwitchToggle.Location = new System.Drawing.Point(15, 132);
             this.iButtonSwitchToggle.Name = "iButtonSwitchToggle";
             this.iButtonSwitchToggle.Size = new System.Drawing.Size(102, 23);
             this.iButtonSwitchToggle.TabIndex = 15;
@@ -121,7 +126,7 @@
             // iButtonSwitchOn
             // 
             this.iButtonSwitchOn.Enabled = false;
-            this.iButtonSwitchOn.Location = new System.Drawing.Point(12, 138);
+            this.iButtonSwitchOn.Location = new System.Drawing.Point(15, 161);
             this.iButtonSwitchOn.Name = "iButtonSwitchOn";
             this.iButtonSwitchOn.Size = new System.Drawing.Size(102, 23);
             this.iButtonSwitchOn.TabIndex = 16;
@@ -132,7 +137,7 @@
             // iButtonSwitchOff
             // 
             this.iButtonSwitchOff.Enabled = false;
-            this.iButtonSwitchOff.Location = new System.Drawing.Point(12, 167);
+            this.iButtonSwitchOff.Location = new System.Drawing.Point(15, 190);
             this.iButtonSwitchOff.Name = "iButtonSwitchOff";
             this.iButtonSwitchOff.Size = new System.Drawing.Size(102, 23);
             this.iButtonSwitchOff.TabIndex = 17;
@@ -140,12 +145,41 @@
             this.iButtonSwitchOff.UseVisualStyleBackColor = true;
             this.iButtonSwitchOff.Click += new System.EventHandler(this.iButtonSwitchOff_Click);
             // 
+            // iMenuStrip
+            // 
+            this.iMenuStrip.BackColor = System.Drawing.SystemColors.Window;
+            this.iMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iToolStripMenuItemAbout,
+            this.iToolStripMenuItemUpdate});
+            this.iMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.iMenuStrip.Name = "iMenuStrip";
+            this.iMenuStrip.Size = new System.Drawing.Size(687, 24);
+            this.iMenuStrip.TabIndex = 21;
+            this.iMenuStrip.Text = "Menu";
+            // 
+            // iToolStripMenuItemAbout
+            // 
+            this.iToolStripMenuItemAbout.Name = "iToolStripMenuItemAbout";
+            this.iToolStripMenuItemAbout.Size = new System.Drawing.Size(52, 20);
+            this.iToolStripMenuItemAbout.Text = "About";
+            this.iToolStripMenuItemAbout.Click += new System.EventHandler(this.iToolStripMenuItemAbout_Click);
+            // 
+            // iToolStripMenuItemUpdate
+            // 
+            this.iToolStripMenuItemUpdate.Name = "iToolStripMenuItemUpdate";
+            this.iToolStripMenuItemUpdate.Size = new System.Drawing.Size(57, 20);
+            this.iToolStripMenuItemUpdate.Text = "Update";
+            this.iToolStripMenuItemUpdate.Visible = false;
+            this.iToolStripMenuItemUpdate.Click += new System.EventHandler(this.iToolStripMenuItemUpdate_Click);
+            // 
             // FormMain
             // 
             this.AcceptButton = this.iButtonLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 566);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(687, 484);
+            this.Controls.Add(this.iMenuStrip);
             this.Controls.Add(this.iButtonSwitchOff);
             this.Controls.Add(this.iButtonSwitchOn);
             this.Controls.Add(this.iButtonSwitchToggle);
@@ -160,6 +194,8 @@
             this.Name = "FormMain";
             this.Text = "Fritz!Box Demo";
             this.Shown += new System.EventHandler(this.FormMain_Shown);
+            this.iMenuStrip.ResumeLayout(false);
+            this.iMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,6 +213,9 @@
         private System.Windows.Forms.Button iButtonSwitchToggle;
         private System.Windows.Forms.Button iButtonSwitchOn;
         private System.Windows.Forms.Button iButtonSwitchOff;
+        private System.Windows.Forms.MenuStrip iMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem iToolStripMenuItemAbout;
+        private System.Windows.Forms.ToolStripMenuItem iToolStripMenuItemUpdate;
     }
 }
 

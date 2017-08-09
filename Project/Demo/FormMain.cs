@@ -21,6 +21,11 @@ namespace FritzBoxDemo
         {
             InitializeComponent();
             iClient = new SmartHome.Client();
+            // Show version in title bar
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+            Text += " - v" + version;
         }
 
         /// <summary>
@@ -53,7 +58,7 @@ namespace FritzBoxDemo
                     else
                     {
                         // User cancel an update enable manual update option
-                        //iToolStripMenuItemUpdate.Visible = true;
+                        iToolStripMenuItemUpdate.Visible = true;
                     }
                 }
             }
@@ -171,7 +176,7 @@ namespace FritzBoxDemo
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
             if (device.Has(SmartHome.Function.SwitchSocket))
             {
-                await iClient.SetSwitchToggle(device.Identifier);
+                await iClient.SwitchToggle(device.Identifier);
             }
         }
 
@@ -187,7 +192,7 @@ namespace FritzBoxDemo
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
             if (device.Has(SmartHome.Function.SwitchSocket))
             {
-                await iClient.SetSwitchOn(device.Identifier);
+                await iClient.SwitchOn(device.Identifier);
             }
         }
 
@@ -203,7 +208,7 @@ namespace FritzBoxDemo
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
             if (device.Has(SmartHome.Function.SwitchSocket))
             {
-                await iClient.SetSwitchOff(device.Identifier);
+                await iClient.SwitchOff(device.Identifier);
             }
         }
 
@@ -211,5 +216,18 @@ namespace FritzBoxDemo
         {
             SquirrelUpdate();
         }
+
+        private void iToolStripMenuItemUpdate_Click(object sender, EventArgs e)
+        {
+            SquirrelUpdate();
+        }
+
+        private void iToolStripMenuItemAbout_Click(object sender, EventArgs e)
+        {
+            AboutBox box = new AboutBox();
+            box.ShowDialog();
+        }
+
+
     }
 }

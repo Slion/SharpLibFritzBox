@@ -32,7 +32,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// </summary>
         /// <param name="aIdentifier"></param>
         /// <returns></returns>
-        public async Task SetSwitchToggle(string aIdentifier)
+        public async Task SwitchToggle(string aIdentifier)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -48,7 +48,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// </summary>
         /// <param name="aIdentifier"></param>
         /// <returns></returns>
-        public async Task SetSwitchOn(string aIdentifier)
+        public async Task SwitchOn(string aIdentifier)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -64,7 +64,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// </summary>
         /// <param name="aIdentifier"></param>
         /// <returns></returns>
-        public async Task SetSwitchOff(string aIdentifier)
+        public async Task SwitchOff(string aIdentifier)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
