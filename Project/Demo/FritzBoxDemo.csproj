@@ -198,6 +198,6 @@
       <Output TaskParameter="FriendlyVersion" PropertyName="ReleaseFriendlyVersion" />
     </GetVersionParts>
     <!-- Call our powershell script that will generate our Squirrel release -->
-    <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -file ..\..\Publish\DoSquirrelRelease.ps1 @(nuGetPackage->'%(fullpath)') @(squirrelPackage->'%(fullpath)') $(OutDir) $(ReleaseFriendlyVersion) ..\Publish\FritzBoxDemo.nuspec http://publish.slions.net/FritzBoxDemo/ FritzBoxDemo" />
+    <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -file ..\..\Publish\DoSquirrelRelease.ps1 @(nuGetPackage->'%(fullpath)') @(squirrelPackage->'%(fullpath)') $(OutDir) $(ReleaseFriendlyVersion) ..\..\Publish\FritzBoxDemo.nuspec http://publish.slions.net/FritzBoxDemo/ FritzBoxDemo" />
   </Target>
 </Project>
