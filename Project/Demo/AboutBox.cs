@@ -26,8 +26,8 @@ namespace FritzBoxDemo
             textBoxDescription.InsertLink("GitHub", "https://github.com/Slion/SharpLibFritzBox");
             //textBoxDescription.SelectedText = ".\nFeel free to use our ";
             //textBoxDescription.InsertLink("NuGet package\n", "https://www.nuget.org/packages/SharpLibHid/");
-            //textBoxDescription.SelectedText = ".\nInstaller available on ";
-            //textBoxDescription.InsertLink("Slions\n", "https://slions.net/resources/monitor-configuration-demo.3/");
+            textBoxDescription.SelectedText = ".\nInstaller available on ";
+            textBoxDescription.InsertLink("Slions\n", "https://slions.net/resources/fritz-box-demo.5/");
             textBoxDescription.SelectedText = ".\nUse at your own risks.";
         }
 
