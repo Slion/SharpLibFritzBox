@@ -78,7 +78,7 @@ Catch [System.Net.WebException]
 if (-not $firstRelease)
 {
     # Parse RELEASES file to obtain the name of our last package
-    $reader = [System.IO.File]::OpenText( $localFileName )
+    $reader = [System.IO.File]::OpenText( $localReleasesFileName )
     while($null -ne ($line = $reader.ReadLine()))
     {
         $lastFileName = $line.Split(" ")[1]    
