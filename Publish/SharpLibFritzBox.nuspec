@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>SharpLibFritzBox</id>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
         <title>AVM Fritz!Box Library</title>
         <authors>Stéphane Lenclud</authors>
         <owners>Stéphane Lenclud</owners>
@@ -10,7 +10,9 @@
         <projectUrl>https://github.com/Slion/SharpLibFritzBox</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Class library providing access to some Fritz!Box Smart Home functionality.</description>
-        <releaseNotes>Initial release.</releaseNotes>
+        <releaseNotes>Initial release.
+Changed some method names.        
+</releaseNotes>
         <copyright>Stéphane Lenclud</copyright>
         <language />
         <tags>FritzBox AVM Smart Home DECT</tags>
