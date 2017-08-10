@@ -78,12 +78,17 @@ namespace FritzBoxDemo
 
         private async void iButtonLogin_Click(object sender, EventArgs e)
         {
-            //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
-            iClient.BaseAddress = new Uri(iTextBoxUrl.Text);
+            if (iTextBoxUrl.Enabled)
+            {
+                // First time around set our base address
+                // Base address can't be changed after a request was issued
+                iClient.BaseAddress = new Uri(iTextBoxUrl.Text); // This will throw an exception if a request was already sent
+                iTextBoxUrl.Enabled = false; // Tell the user this can't be changed any more
+            }
+
             await iClient.Authenticate(iTextBoxLogin.Text, iTextBoxPassword.Text);
             iLabelSessionId.Text = "Session ID: " + iClient.SessionId;
             await UpdateDeviceList();
-            //await client.SetSwitchToggle("08761 0250071");
         }
         
         /// <summary>
