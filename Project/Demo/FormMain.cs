@@ -119,7 +119,11 @@ namespace FritzBoxDemo
                         }
                         else if (f == SmartHome.Function.RadiatorThermostat)
                         {
-                            // Add radiator thermostat data
+                            // Add radiator thermostat data                            
+                            functionNode.Nodes.Add($"Comfort temperature: {device.Radiator.ComfortTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Economy temperature: {device.Radiator.EconomyTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Current temperature: {device.Radiator.CurrentTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Target temperature: {device.Radiator.TargetTemperatureInCelsius.ToString()} °C");
                             functionNode.Nodes.Add($"Battery {device.Radiator.Battery.ToString()}");
                             functionNode.Nodes.Add($"Lock: {device.Radiator.Lock.ToString()}");
                             functionNode.Nodes.Add($"Device lock: {device.Radiator.DeviceLock.ToString()}");

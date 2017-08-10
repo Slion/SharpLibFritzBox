@@ -19,9 +19,9 @@ namespace SharpLib.FritzBox.SmartHome
     public class Temperature
     {
         [DataMember, XmlElement(Namespace = "", ElementName = "celsius")]
-        public int Celcius { get; set; }
+        public int Celsius { get; set; }
 
-        public float Reading { get { return Celcius * 0.1f; }  }
+        public float Reading { get { return Celsius * 0.1f; }  }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "offset")]
         public int Offset { get; set; }

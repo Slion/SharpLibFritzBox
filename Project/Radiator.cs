@@ -18,17 +18,43 @@ namespace SharpLib.FritzBox.SmartHome
     [DataContract(Namespace = "", Name = "hkr"), XmlSerializerFormat, XmlRoot("hkr")]
     public class Radiator
     {
+        const int KTemperatureOn = 254;
+        const int KTemperatureOff = 253;
+
+        public static bool IsTemperatureOn(int aValue) { return aValue == KTemperatureOn; }
+        public static bool IsTemperatureOff(int aValue) { return aValue == KTemperatureOff; }
+        public static float TemperatureInCelsius(int aValue)
+        {
+            if (IsTemperatureOff(aValue))
+            {
+                // Return fake value that makes sense
+                return 0;
+            }
+            else if (IsTemperatureOn(aValue))
+            {
+                // Return fake value that makes sense
+                return 30;
+            }
+            // Convert to Celsius then
+            return aValue * 0.5f;
+        }
+
+        public float CurrentTemperatureInCelsius { get { return TemperatureInCelsius(CurrentTemperature); } }
+        public float TargetTemperatureInCelsius { get { return TemperatureInCelsius(TargetTemperature); } }
+        public float EconomyTemperatureInCelsius { get { return TemperatureInCelsius(EconomyTemperature); } }
+        public float ComfortTemperatureInCelsius { get { return TemperatureInCelsius(ComfortTemperature); } }
+
         [DataMember, XmlElement(Namespace = "", ElementName = "tist")]
-        public string CurrentTemperature { get; set; }
+        public int CurrentTemperature { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "tsoll")]
-        public string TargetTemperature { get; set; }
+        public int TargetTemperature { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "absenk")]
-        public string LowestTemperature { get; set; }
+        public int EconomyTemperature { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "komfort")]
-        public string ComfortTemperature { get; set; }
+        public int ComfortTemperature { get; set; }
 
         /// <summary>
         /// Locked from UI/API
@@ -68,7 +94,6 @@ namespace SharpLib.FritzBox.SmartHome
 
         [DataMember, XmlElement(Namespace = "", ElementName = "nextchange")]
         public NextChange NextChange { get; set; }
-
 
     }
 
