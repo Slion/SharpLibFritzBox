@@ -79,6 +79,7 @@ namespace FritzBoxDemo
         private async void iButtonLogin_Click(object sender, EventArgs e)
         {
             //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
+            iClient.BaseAddress = new Uri(iTextBoxUrl.Text);
             await iClient.Authenticate(iTextBoxLogin.Text, iTextBoxPassword.Text);
             iLabelSessionId.Text = "Session ID: " + iClient.SessionId;
             await UpdateDeviceList();
@@ -183,13 +184,18 @@ namespace FritzBoxDemo
         }
 
         /// <summary>
-        /// 
+        /// Update our UI controls based on application state.
+        /// We mostly check the properties of the device currently selected.
         /// </summary>
         private void UpdateControls()
         {
+            // Switch Socket
+            iGroupBoxSwitchSocket.Enabled = false;
             iButtonSwitchToggle.Enabled = false;
             iButtonSwitchOn.Enabled = false;
             iButtonSwitchOff.Enabled = false;
+            // Radiator Thermostat
+            iGroupBoxRadiatorThermostat.Enabled = false;
             iNumericUpDownTemperature.Enabled = false;
             iComboBoxThermostat.Enabled = false;
 
@@ -203,6 +209,7 @@ namespace FritzBoxDemo
             // Enable controls related to switch socket
             if (device.IsSwitchSocket)
             {
+                iGroupBoxSwitchSocket.Enabled = true;
                 iButtonSwitchToggle.Enabled = true;
                 iButtonSwitchOn.Enabled = true;
                 iButtonSwitchOff.Enabled = true;
@@ -210,6 +217,7 @@ namespace FritzBoxDemo
 
             if (device.IsRadiatorThermostat)
             {
+                iGroupBoxRadiatorThermostat.Enabled = true;
                 iComboBoxThermostat.Enabled = true;
                 if (device.Radiator.IsOnMax)
                 {
@@ -265,6 +273,11 @@ namespace FritzBoxDemo
             await device.SwitchOn();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void iButtonSwitchOff_Click(object sender, EventArgs e)
         {
             if (iTreeViewDevices.SelectedNode == null
@@ -278,6 +291,11 @@ namespace FritzBoxDemo
             await device.SwitchOff();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormMain_Shown(object sender, EventArgs e)
         {
             SquirrelUpdate();
@@ -294,6 +312,11 @@ namespace FritzBoxDemo
             box.ShowDialog();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void iNumericUpDownTemperature_ValueChanged(object sender, EventArgs e)
         {
             if (iTreeViewDevices.SelectedNode == null
@@ -307,11 +330,11 @@ namespace FritzBoxDemo
             await UpdateDeviceList(device.Identifier);
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void iComboBoxThermostat_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (iTreeViewDevices.SelectedNode == null
@@ -337,5 +360,6 @@ namespace FritzBoxDemo
 
             await UpdateDeviceList(device.Identifier);
         }
+
     }
 }
