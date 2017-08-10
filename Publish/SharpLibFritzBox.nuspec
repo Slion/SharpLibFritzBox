@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>SharpLibFritzBox</id>
-        <version>0.0.2</version>
+        <version>1.1.0</version>
         <title>AVM Fritz!Box Library</title>
         <authors>Stéphane Lenclud</authors>
         <owners>Stéphane Lenclud</owners>
