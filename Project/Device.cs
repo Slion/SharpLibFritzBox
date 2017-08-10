@@ -59,7 +59,8 @@ namespace SharpLib.FritzBox.SmartHome
         #endregion
 
         public bool Has(Function aFunction) { return ((Function)FunctionBitmask).HasFlag(aFunction); }
-        public bool IsSwitchSocket() { return Has(Function.SwitchSocket); }
+        public bool IsSwitchSocket { get { return Has(Function.SwitchSocket); } }
+        public bool IsRadiatorThermostat { get { return Has(Function.RadiatorThermostat); } }
 
         #region Switch Socket functionality
         //
@@ -84,12 +85,48 @@ namespace SharpLib.FritzBox.SmartHome
         }
         #endregion
 
+        #region Radiator Thermostat functionality
+        //
+        public async Task SetTargetTemperature(float aTemperatureInCelsius)
+        {
+            AssertRadiatorThermostat();
+            await Client.SetTargetTemperature(Identifier, Radiator.CelsiusToTemperatureCode(aTemperatureInCelsius));
+        }
+
+        public async Task SetTargetTemperatureCode(int aCode)
+        {
+            AssertRadiatorThermostat();
+            await Client.SetTargetTemperature(Identifier, aCode);
+        }
+
+        public async Task RadiatorOn()
+        {
+            AssertRadiatorThermostat();
+            await Client.SetTargetTemperature(Identifier, (int)Thermostat.On);
+        }
+
+        public async Task RadiatorOff()
+        {
+            AssertRadiatorThermostat();
+            await Client.SetTargetTemperature(Identifier, (int)Thermostat.Off);
+        }
+
+        #endregion
+
         #region Internals
         private void AssertSwitchSocket()
         {
-            if (!IsSwitchSocket())
+            if (!IsSwitchSocket)
             {
                 throw new NotSupportedException("This device is not a switch socket!");
+            }
+        }
+
+        private void AssertRadiatorThermostat()
+        {
+            if (!IsRadiatorThermostat)
+            {
+                throw new NotSupportedException("This device is not a radiator thermostat!");
             }
         }
 

@@ -18,11 +18,15 @@ namespace SharpLib.FritzBox.SmartHome
     [DataContract(Namespace = "", Name = "hkr"), XmlSerializerFormat, XmlRoot("hkr")]
     public class Radiator
     {
-        const int KTemperatureOn = 254;
-        const int KTemperatureOff = 253;
+        const float KMinCelsius = 8.0f;
+        const float KMaxCelsius = 30.0f;
 
-        public static bool IsTemperatureOn(int aValue) { return aValue == KTemperatureOn; }
-        public static bool IsTemperatureOff(int aValue) { return aValue == KTemperatureOff; }
+        public bool IsOnMax { get { return IsTemperatureOn(TargetTemperature); } }
+        public bool IsOff { get { return IsTemperatureOff(TargetTemperature); } }
+
+
+        public static bool IsTemperatureOn(int aValue) { return aValue == (int)Thermostat.On; }
+        public static bool IsTemperatureOff(int aValue) { return aValue == (int)Thermostat.Off; }
         public static float TemperatureInCelsius(int aValue)
         {
             if (IsTemperatureOff(aValue))
@@ -37,6 +41,26 @@ namespace SharpLib.FritzBox.SmartHome
             }
             // Convert to Celsius then
             return aValue * 0.5f;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aCelsius"></param>
+        /// <returns></returns>
+        public static int CelsiusToTemperatureCode(float aCelsius)
+        {
+            if (aCelsius < KMinCelsius)
+            {
+                return (int)Thermostat.Off;
+            }
+
+            if (aCelsius > KMaxCelsius)
+            {
+                return (int)Thermostat.On;
+            }
+
+            return (int)(aCelsius/0.5f); // 
         }
 
         public float CurrentTemperatureInCelsius { get { return TemperatureInCelsius(CurrentTemperature); } }

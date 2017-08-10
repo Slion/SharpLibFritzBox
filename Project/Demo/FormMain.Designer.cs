@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.iButtonLogin = new System.Windows.Forms.Button();
             this.iTextBoxLogin = new System.Windows.Forms.TextBox();
@@ -42,7 +43,16 @@
             this.iMenuStrip = new System.Windows.Forms.MenuStrip();
             this.iToolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.iToolStripMenuItemUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.iNumericUpDownTemperature = new System.Windows.Forms.NumericUpDown();
+            this.iLabelTemperature = new System.Windows.Forms.Label();
+            this.iComboBoxThermostat = new System.Windows.Forms.ComboBox();
+            this.thermostatBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.thermostatBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.iThermostatLabel = new System.Windows.Forms.Label();
             this.iMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iNumericUpDownTemperature)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thermostatBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thermostatBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // iButtonLogin
@@ -172,6 +182,64 @@
             this.iToolStripMenuItemUpdate.Visible = false;
             this.iToolStripMenuItemUpdate.Click += new System.EventHandler(this.iToolStripMenuItemUpdate_Click);
             // 
+            // iNumericUpDownTemperature
+            // 
+            this.iNumericUpDownTemperature.DecimalPlaces = 1;
+            this.iNumericUpDownTemperature.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.iNumericUpDownTemperature.Location = new System.Drawing.Point(108, 237);
+            this.iNumericUpDownTemperature.Maximum = new decimal(new int[] {
+            28,
+            0,
+            0,
+            0});
+            this.iNumericUpDownTemperature.Minimum = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.iNumericUpDownTemperature.Name = "iNumericUpDownTemperature";
+            this.iNumericUpDownTemperature.Size = new System.Drawing.Size(53, 20);
+            this.iNumericUpDownTemperature.TabIndex = 22;
+            this.iNumericUpDownTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.iNumericUpDownTemperature.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.iNumericUpDownTemperature.ValueChanged += new System.EventHandler(this.iNumericUpDownTemperature_ValueChanged);
+            // 
+            // iLabelTemperature
+            // 
+            this.iLabelTemperature.AutoSize = true;
+            this.iLabelTemperature.Location = new System.Drawing.Point(12, 239);
+            this.iLabelTemperature.Name = "iLabelTemperature";
+            this.iLabelTemperature.Size = new System.Drawing.Size(90, 13);
+            this.iLabelTemperature.TabIndex = 23;
+            this.iLabelTemperature.Text = "Temperature (°C):";
+            // 
+            // iComboBoxThermostat
+            // 
+            this.iComboBoxThermostat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.iComboBoxThermostat.FormattingEnabled = true;
+            this.iComboBoxThermostat.Location = new System.Drawing.Point(108, 274);
+            this.iComboBoxThermostat.Name = "iComboBoxThermostat";
+            this.iComboBoxThermostat.Size = new System.Drawing.Size(53, 21);
+            this.iComboBoxThermostat.TabIndex = 24;
+            this.iComboBoxThermostat.SelectedIndexChanged += new System.EventHandler(this.iComboBoxThermostat_SelectedIndexChanged);
+            // 
+            // iThermostatLabel
+            // 
+            this.iThermostatLabel.AutoSize = true;
+            this.iThermostatLabel.Location = new System.Drawing.Point(39, 277);
+            this.iThermostatLabel.Name = "iThermostatLabel";
+            this.iThermostatLabel.Size = new System.Drawing.Size(63, 13);
+            this.iThermostatLabel.TabIndex = 25;
+            this.iThermostatLabel.Text = "Thermostat:";
+            // 
             // FormMain
             // 
             this.AcceptButton = this.iButtonLogin;
@@ -179,6 +247,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(687, 484);
+            this.Controls.Add(this.iThermostatLabel);
+            this.Controls.Add(this.iComboBoxThermostat);
+            this.Controls.Add(this.iLabelTemperature);
+            this.Controls.Add(this.iNumericUpDownTemperature);
             this.Controls.Add(this.iMenuStrip);
             this.Controls.Add(this.iButtonSwitchOff);
             this.Controls.Add(this.iButtonSwitchOn);
@@ -193,9 +265,13 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.Text = "Fritz!Box Demo";
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.Shown += new System.EventHandler(this.FormMain_Shown);
             this.iMenuStrip.ResumeLayout(false);
             this.iMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.iNumericUpDownTemperature)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thermostatBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thermostatBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -216,6 +292,12 @@
         private System.Windows.Forms.MenuStrip iMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem iToolStripMenuItemAbout;
         private System.Windows.Forms.ToolStripMenuItem iToolStripMenuItemUpdate;
+        private System.Windows.Forms.NumericUpDown iNumericUpDownTemperature;
+        private System.Windows.Forms.Label iLabelTemperature;
+        private System.Windows.Forms.ComboBox iComboBoxThermostat;
+        private System.Windows.Forms.BindingSource thermostatBindingSource;
+        private System.Windows.Forms.BindingSource thermostatBindingSource1;
+        private System.Windows.Forms.Label iThermostatLabel;
     }
 }
 

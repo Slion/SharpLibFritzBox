@@ -31,6 +31,23 @@ namespace SharpLib.FritzBox.SmartHome
         /// 
         /// </summary>
         /// <param name="aIdentifier"></param>
+        /// <param name="aTemperatureCode"></param>
+        /// <returns></returns>
+        public async Task SetTargetTemperature(string aIdentifier, int aTemperatureCode)
+        {
+            // TODO: try the query before in case no login needed?
+            if (string.IsNullOrEmpty(SessionId))
+            {
+                throw new UnauthorizedAccessException("Need to authenticate first!");
+            }
+
+            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=sethkrtsoll&ain={aIdentifier}&param={aTemperatureCode}");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aIdentifier"></param>
         /// <returns></returns>
         public async Task SwitchToggle(string aIdentifier)
         {

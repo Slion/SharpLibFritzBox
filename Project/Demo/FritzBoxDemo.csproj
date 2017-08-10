@@ -188,6 +188,9 @@
       <Link>Tools\NuGet.exe</Link>
     </NuGetPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
   <!-- Target to build Squirrel release -->
   <Target Name="AfterBuild" Condition=" '$(Configuration)' == 'Release'">
     <!-- Get our version number -->

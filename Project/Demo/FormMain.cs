@@ -20,12 +20,17 @@ namespace FritzBoxDemo
         public FormMain()
         {
             InitializeComponent();
+            // Add data source
+            iComboBoxThermostat.DataSource = Enum.GetValues(typeof(SmartHome.Thermostat));
+            UpdateControls();
+            //
             iClient = new SmartHome.Client();
             // Show version in title bar
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;
             Text += " - v" + version;
+
         }
 
         /// <summary>
@@ -76,11 +81,48 @@ namespace FritzBoxDemo
             //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
             await iClient.Authenticate(iTextBoxLogin.Text, iTextBoxPassword.Text);
             iLabelSessionId.Text = "Session ID: " + iClient.SessionId;
-            SmartHome.DeviceList deviceList = await iClient.GetDeviceList();
-            PopulateDevicesTree(deviceList);
+            await UpdateDeviceList();
             //await client.SetSwitchToggle("08761 0250071");
         }
         
+        /// <summary>
+        /// Update our device list
+        /// </summary>
+        /// <returns></returns>
+        async Task UpdateDeviceList()
+        {
+            SmartHome.DeviceList deviceList = await iClient.GetDeviceList();
+            PopulateDevicesTree(deviceList);
+        }
+
+        /// <summary>
+        /// Update our device list and select the specified device 
+        /// </summary>
+        /// <param name="aIdentifier"></param>
+        /// <returns></returns>
+        async Task UpdateDeviceList(string aIdentifier)
+        {
+            await UpdateDeviceList();
+            SelectDevice(aIdentifier);
+        }
+
+        /// <summary>
+        /// Select the specified device in our tree view.
+        /// </summary>
+        /// <param name="aIdentifier"></param>
+        void SelectDevice(string aIdentifier)
+        {
+            foreach (TreeNode n in iTreeViewDevices.Nodes)
+            {
+                SmartHome.Device d = (SmartHome.Device)n.Tag;
+                if (d.Identifier==aIdentifier)
+                {
+                    iTreeViewDevices.SelectedNode = n;
+                    n.ExpandAll();
+                }
+            }
+        }
+
         /// <summary>
         /// Populate our tree view with our devices information.
         /// </summary>
@@ -88,6 +130,7 @@ namespace FritzBoxDemo
         void PopulateDevicesTree(SmartHome.DeviceList aDeviceList)
         {
             iTreeViewDevices.Nodes.Clear();
+            UpdateControls();
 
             // For each device
             foreach (SmartHome.Device device in aDeviceList.Devices)
@@ -134,33 +177,61 @@ namespace FritzBoxDemo
                             functionNode.Nodes.Add($"Power: {device.PowerMeter.PowerInWatt}W");
                             functionNode.Nodes.Add($"Energy: {device.PowerMeter.EnergyInKiloWattPerHour}kWh");
                         }
-
                     }
                 }
             }
         }
 
-        private void iTreeViewDevices_AfterSelect(object sender, TreeViewEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        private void UpdateControls()
         {
             iButtonSwitchToggle.Enabled = false;
             iButtonSwitchOn.Enabled = false;
             iButtonSwitchOff.Enabled = false;
+            iNumericUpDownTemperature.Enabled = false;
+            iComboBoxThermostat.Enabled = false;
 
-            if (e.Node == null
-                || !(e.Node.Tag is SmartHome.Device))
+            if (iTreeViewDevices.SelectedNode == null
+                || !(iTreeViewDevices.SelectedNode.Tag is SmartHome.Device))
             {
                 return;
             }
 
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
             // Enable controls related to switch socket
-            if (device.Has(SmartHome.Function.SwitchSocket))
+            if (device.IsSwitchSocket)
             {
                 iButtonSwitchToggle.Enabled = true;
                 iButtonSwitchOn.Enabled = true;
                 iButtonSwitchOff.Enabled = true;
             }
 
+            if (device.IsRadiatorThermostat)
+            {
+                iComboBoxThermostat.Enabled = true;
+                if (device.Radiator.IsOnMax)
+                {
+                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.On;
+                }
+                else if (device.Radiator.IsOff)
+                {
+                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Off;
+                }
+                else
+                {
+                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Set;
+                    iNumericUpDownTemperature.Enabled = true;
+                    iNumericUpDownTemperature.Value = (decimal)device.Radiator.TargetTemperatureInCelsius;
+                }
+            }
+
+        }
+
+        private void iTreeViewDevices_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            UpdateControls();
         }
 
         private void iTreeViewDevices_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -223,6 +294,48 @@ namespace FritzBoxDemo
             box.ShowDialog();
         }
 
+        private async void iNumericUpDownTemperature_ValueChanged(object sender, EventArgs e)
+        {
+            if (iTreeViewDevices.SelectedNode == null
+            || !(iTreeViewDevices.SelectedNode.Tag is SmartHome.Device))
+            {
+                return;
+            }
 
+            SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
+            await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);
+            await UpdateDeviceList(device.Identifier);
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void iComboBoxThermostat_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (iTreeViewDevices.SelectedNode == null
+            || !(iTreeViewDevices.SelectedNode.Tag is SmartHome.Device))
+            {
+                return;
+            }
+
+            SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
+
+            SmartHome.Thermostat thermostat = SmartHome.Thermostat.Off;
+            Enum.TryParse<SmartHome.Thermostat>(iComboBoxThermostat.SelectedValue.ToString(), out thermostat);
+            if (thermostat== SmartHome.Thermostat.Set)
+            {
+                // Set target temperature
+                await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);
+            }
+            else
+            {
+                // Turn it on of off
+                await device.SetTargetTemperatureCode((int)thermostat);
+            }
+
+            await UpdateDeviceList(device.Identifier);
+        }
     }
 }
