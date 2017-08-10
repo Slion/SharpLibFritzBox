@@ -74,9 +74,9 @@ namespace FritzBoxDemo
         private async void iButtonLogin_Click(object sender, EventArgs e)
         {
             //FritzBox.SessionInfo info = await client.GetSessionInfoAsync();
-            await iClient.AuthenticateAsync(iTextBoxLogin.Text, iTextBoxPassword.Text);
+            await iClient.Authenticate(iTextBoxLogin.Text, iTextBoxPassword.Text);
             iLabelSessionId.Text = "Session ID: " + iClient.SessionId;
-            SmartHome.DeviceList deviceList = await iClient.GetDeviceListAsync();
+            SmartHome.DeviceList deviceList = await iClient.GetDeviceList();
             PopulateDevicesTree(deviceList);
             //await client.SetSwitchToggle("08761 0250071");
         }
@@ -174,10 +174,7 @@ namespace FritzBoxDemo
 
             // Toggle our switch if valid
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            if (device.Has(SmartHome.Function.SwitchSocket))
-            {
-                await iClient.SwitchToggle(device.Identifier);
-            }
+            await device.SwitchToggle();
         }
 
         private async void iButtonSwitchOn_Click(object sender, EventArgs e)
@@ -190,10 +187,7 @@ namespace FritzBoxDemo
 
             // Switch on if valid
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            if (device.Has(SmartHome.Function.SwitchSocket))
-            {
-                await iClient.SwitchOn(device.Identifier);
-            }
+            await device.SwitchOn();
         }
 
         private async void iButtonSwitchOff_Click(object sender, EventArgs e)
@@ -206,10 +200,7 @@ namespace FritzBoxDemo
 
             // Switch off if valid
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            if (device.Has(SmartHome.Function.SwitchSocket))
-            {
-                await iClient.SwitchOff(device.Identifier);
-            }
+            await device.SwitchOff();
         }
 
         private void FormMain_Shown(object sender, EventArgs e)

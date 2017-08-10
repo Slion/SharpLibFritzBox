@@ -80,7 +80,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<DeviceList> GetDeviceListAsync()
+        public async Task<DeviceList> GetDeviceList()
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -98,6 +98,13 @@ namespace SharpLib.FritzBox.SmartHome
                 list = serializer.Deserialize(stream) as DeviceList;
             }
 
+            // Make sure all devices have access to this client
+            // That allows for nicer object oriented usage
+            foreach (Device d in list.Devices)
+            {
+                d.Client = this;
+            }
+
             return list;
         }
 
@@ -105,7 +112,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<SessionInfo> GetSessionInfoAsync(string aParams = "")
+        private async Task<SessionInfo> GetSessionInfo(string aParams = "")
         {
             SessionInfo info = null;
             HttpResponseMessage response = await GetAsync("login_sid.lua" + aParams);
@@ -128,7 +135,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// <param name="aUserName"></param>
         /// <param name="aPassword"></param>
         /// <returns></returns>
-        public async Task AuthenticateAsync(string aUserName, string aPassword)
+        public async Task Authenticate(string aUserName, string aPassword)
         {
             SessionId = await GetSessionId(aUserName, aPassword);
         }
@@ -142,14 +149,14 @@ namespace SharpLib.FritzBox.SmartHome
         private async Task<string> GetSessionId(string aUserName, string aPassword)
         {
             string sessionId = string.Empty;
-            SessionInfo info = await GetSessionInfoAsync();
+            SessionInfo info = await GetSessionInfo();
             if (info != null)            
             {
                 // If we don't have a session ID, just get one
                 if (info.IsSessionIdNull())
                 {
                     string request = @"?username=" + aUserName + @"&response=" + GetLoginResponse(info.Challenge, aPassword);
-                    info = await GetSessionInfoAsync(request);
+                    info = await GetSessionInfo(request);
                     if (info != null && !info.IsSessionIdNull())
                     {
                         sessionId = info.SessionId;

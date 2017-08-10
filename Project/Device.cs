@@ -18,6 +18,7 @@ namespace SharpLib.FritzBox.SmartHome
     [DataContract(Namespace = "", Name ="device"), XmlSerializerFormat, XmlRoot("device")]
     public class Device
     {
+        #region XML Attributes
         [DataMember, XmlAttribute(Namespace ="", AttributeName = "identifier")]
         public string Identifier { get; set; }
 
@@ -27,8 +28,6 @@ namespace SharpLib.FritzBox.SmartHome
         [DataMember, XmlAttribute(Namespace = "", AttributeName = "functionbitmask")]
         public uint FunctionBitmask { get; set; }
 
-        public bool Has(Function aFunction) { return ((Function)FunctionBitmask).HasFlag(aFunction); }
-
         [DataMember, XmlAttribute(Namespace = "", AttributeName = "fwversion")]
         public string FirmwareVersion { get; set; }
 
@@ -37,7 +36,9 @@ namespace SharpLib.FritzBox.SmartHome
 
         [DataMember, XmlAttribute(Namespace = "", AttributeName = "productname")]
         public string ProductName { get; set; }
+        #endregion
 
+        #region XML Elements
         [DataMember, XmlElement(Namespace = "", ElementName = "present")]
         public string Present { get; set; }
 
@@ -55,9 +56,46 @@ namespace SharpLib.FritzBox.SmartHome
 
         [DataMember, XmlElement(Namespace = "", ElementName = "hkr")]
         public Radiator Radiator { get; set; }
+        #endregion
 
-        
+        public bool Has(Function aFunction) { return ((Function)FunctionBitmask).HasFlag(aFunction); }
+        public bool IsSwitchSocket() { return Has(Function.SwitchSocket); }
 
+        #region Switch Socket functionality
+        //
+        public async Task SwitchToggle()
+        {
+            AssertSwitchSocket();
+            await Client.SwitchToggle(Identifier);
+        }
+
+        //
+        public async Task SwitchOn()
+        {
+            AssertSwitchSocket();
+            await Client.SwitchOn(Identifier);
+        }
+
+        //
+        public async Task SwitchOff()
+        {
+            AssertSwitchSocket();
+            await Client.SwitchOff(Identifier);
+        }
+        #endregion
+
+        #region Internals
+        private void AssertSwitchSocket()
+        {
+            if (!IsSwitchSocket())
+            {
+                throw new NotSupportedException("This device is not a switch socket!");
+            }
+        }
+
+        [XmlIgnore]
+        public Client Client { get; set; }
+        #endregion
     }
 
 }
