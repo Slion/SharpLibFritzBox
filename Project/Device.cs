@@ -55,7 +55,7 @@ namespace SharpLib.FritzBox.SmartHome
         public Temperature Temperature { get; set; }
 
         [DataMember, XmlElement(Namespace = "", ElementName = "hkr")]
-        public Radiator Radiator { get; set; }
+        public Thermostat Thermostat { get; set; }
         #endregion
 
         public bool Has(Function aFunction) { return ((Function)FunctionBitmask).HasFlag(aFunction); }
@@ -90,7 +90,7 @@ namespace SharpLib.FritzBox.SmartHome
         public async Task SetTargetTemperature(float aTemperatureInCelsius)
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, Radiator.CelsiusToTemperatureCode(aTemperatureInCelsius));
+            await Client.SetTargetTemperature(Identifier, Thermostat.CelsiusToTemperatureCode(aTemperatureInCelsius));
         }
 
         public async Task SetTargetTemperatureCode(int aCode)
@@ -102,13 +102,13 @@ namespace SharpLib.FritzBox.SmartHome
         public async Task RadiatorOn()
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, (int)Thermostat.On);
+            await Client.SetTargetTemperature(Identifier, (int)Thermostat.Radiator.On);
         }
 
         public async Task RadiatorOff()
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, (int)Thermostat.Off);
+            await Client.SetTargetTemperature(Identifier, (int)Thermostat.Radiator.Off);
         }
 
         #endregion

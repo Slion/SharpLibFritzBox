@@ -189,7 +189,7 @@
             // 
             this.iThermostatLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.iThermostatLabel.AutoSize = true;
-            this.iThermostatLabel.Location = new System.Drawing.Point(60, 70);
+            this.iThermostatLabel.Location = new System.Drawing.Point(37, 70);
             this.iThermostatLabel.Name = "iThermostatLabel";
             this.iThermostatLabel.Size = new System.Drawing.Size(63, 13);
             this.iThermostatLabel.TabIndex = 29;
@@ -200,9 +200,9 @@
             this.iComboBoxThermostat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.iComboBoxThermostat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.iComboBoxThermostat.FormattingEnabled = true;
-            this.iComboBoxThermostat.Location = new System.Drawing.Point(129, 67);
+            this.iComboBoxThermostat.Location = new System.Drawing.Point(106, 67);
             this.iComboBoxThermostat.Name = "iComboBoxThermostat";
-            this.iComboBoxThermostat.Size = new System.Drawing.Size(53, 21);
+            this.iComboBoxThermostat.Size = new System.Drawing.Size(76, 21);
             this.iComboBoxThermostat.TabIndex = 28;
             this.iComboBoxThermostat.SelectedIndexChanged += new System.EventHandler(this.iComboBoxThermostat_SelectedIndexChanged);
             // 

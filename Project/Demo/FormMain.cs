@@ -21,7 +21,7 @@ namespace FritzBoxDemo
         {
             InitializeComponent();
             // Add data source
-            iComboBoxThermostat.DataSource = Enum.GetValues(typeof(SmartHome.Thermostat));
+            iComboBoxThermostat.DataSource = Enum.GetValues(typeof(SmartHome.Thermostat.Radiator));
             UpdateControls();
             //
             iClient = new SmartHome.Client();
@@ -164,13 +164,13 @@ namespace FritzBoxDemo
                         else if (f == SmartHome.Function.RadiatorThermostat)
                         {
                             // Add radiator thermostat data                            
-                            functionNode.Nodes.Add($"Comfort temperature: {device.Radiator.ComfortTemperatureInCelsius.ToString()} °C");
-                            functionNode.Nodes.Add($"Economy temperature: {device.Radiator.EconomyTemperatureInCelsius.ToString()} °C");
-                            functionNode.Nodes.Add($"Current temperature: {device.Radiator.CurrentTemperatureInCelsius.ToString()} °C");
-                            functionNode.Nodes.Add($"Target temperature: {device.Radiator.TargetTemperatureInCelsius.ToString()} °C");
-                            functionNode.Nodes.Add($"Battery {device.Radiator.Battery.ToString()}");
-                            functionNode.Nodes.Add($"Lock: {device.Radiator.Lock.ToString()}");
-                            functionNode.Nodes.Add($"Device lock: {device.Radiator.DeviceLock.ToString()}");
+                            functionNode.Nodes.Add($"Comfort temperature: {device.Thermostat.ComfortTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Economy temperature: {device.Thermostat.EconomyTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Current temperature: {device.Thermostat.CurrentTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Target temperature: {device.Thermostat.TargetTemperatureInCelsius.ToString()} °C");
+                            functionNode.Nodes.Add($"Battery {device.Thermostat.Battery.ToString()}");
+                            functionNode.Nodes.Add($"Lock: {device.Thermostat.Lock.ToString()}");
+                            functionNode.Nodes.Add($"Device lock: {device.Thermostat.DeviceLock.ToString()}");
                         }
                         else if (f == SmartHome.Function.PowerMeter)
                         {
@@ -219,19 +219,19 @@ namespace FritzBoxDemo
             {
                 iGroupBoxRadiatorThermostat.Enabled = true;
                 iComboBoxThermostat.Enabled = true;
-                if (device.Radiator.IsOnMax)
+                if (device.Thermostat.IsOnMax)
                 {
-                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.On;
+                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Radiator.On;
                 }
-                else if (device.Radiator.IsOff)
+                else if (device.Thermostat.IsOff)
                 {
-                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Off;
+                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Radiator.Off;
                 }
                 else
                 {
-                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Set;
+                    iComboBoxThermostat.SelectedItem = SmartHome.Thermostat.Radiator.Regulated;
                     iNumericUpDownTemperature.Enabled = true;
-                    iNumericUpDownTemperature.Value = (decimal)device.Radiator.TargetTemperatureInCelsius;
+                    iNumericUpDownTemperature.Value = (decimal)device.Thermostat.TargetTemperatureInCelsius;
                 }
             }
 
@@ -345,9 +345,9 @@ namespace FritzBoxDemo
 
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
 
-            SmartHome.Thermostat thermostat = SmartHome.Thermostat.Off;
-            Enum.TryParse<SmartHome.Thermostat>(iComboBoxThermostat.SelectedValue.ToString(), out thermostat);
-            if (thermostat== SmartHome.Thermostat.Set)
+            SmartHome.Thermostat.Radiator thermostat = SmartHome.Thermostat.Radiator.Off;
+            Enum.TryParse<SmartHome.Thermostat.Radiator>(iComboBoxThermostat.SelectedValue.ToString(), out thermostat);
+            if (thermostat == SmartHome.Thermostat.Radiator.Regulated)
             {
                 // Set target temperature
                 await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);

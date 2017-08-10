@@ -12,12 +12,6 @@ using System.Xml.Serialization;
 
 namespace SharpLib.FritzBox.SmartHome
 {
-    public enum Thermostat
-    {
-        On = 254,
-        Set = 42, // 21 C
-        Off = 253
-    }
 
     [Flags]
     public enum Function

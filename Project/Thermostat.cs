@@ -16,17 +16,34 @@ namespace SharpLib.FritzBox.SmartHome
     /// Not sure why we need the data contract here since we use the XML serializer anyway.
     /// </summary>
     [DataContract(Namespace = "", Name = "hkr"), XmlSerializerFormat, XmlRoot("hkr")]
-    public class Radiator
+    public class Thermostat
     {
+        public enum Radiator
+        {
+            /// <summary>
+            /// Radiator is turned on to full power.
+            /// </summary>
+            On = 254,
+            /// <summary>
+            /// Radiator regulated to maintain target temperature.
+            /// </summary>
+            Regulated = 42, // 21 C
+            /// <summary>
+            /// Radiator is turned off.
+            /// </summary>
+            Off = 253
+        }
+
         const float KMinCelsius = 8.0f;
         const float KMaxCelsius = 30.0f;
 
         public bool IsOnMax { get { return IsTemperatureOn(TargetTemperature); } }
         public bool IsOff { get { return IsTemperatureOff(TargetTemperature); } }
+        public bool Isregulated { get { return !IsOnMax && !IsOff; } }
 
 
-        public static bool IsTemperatureOn(int aValue) { return aValue == (int)Thermostat.On; }
-        public static bool IsTemperatureOff(int aValue) { return aValue == (int)Thermostat.Off; }
+        public static bool IsTemperatureOn(int aValue) { return aValue == (int)Radiator.On; }
+        public static bool IsTemperatureOff(int aValue) { return aValue == (int)Radiator.Off; }
         public static float TemperatureInCelsius(int aValue)
         {
             if (IsTemperatureOff(aValue))
@@ -52,12 +69,12 @@ namespace SharpLib.FritzBox.SmartHome
         {
             if (aCelsius < KMinCelsius)
             {
-                return (int)Thermostat.Off;
+                return (int)Radiator.Off;
             }
 
             if (aCelsius > KMaxCelsius)
             {
-                return (int)Thermostat.On;
+                return (int)Radiator.On;
             }
 
             return (int)(aCelsius/0.5f); // 
