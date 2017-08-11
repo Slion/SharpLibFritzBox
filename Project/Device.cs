@@ -64,51 +64,51 @@ namespace SharpLib.FritzBox.SmartHome
 
         #region Switch Socket functionality
         //
-        public async Task SwitchToggle()
+        public async Task<bool> SwitchToggle()
         {
             AssertSwitchSocket();
-            await Client.SwitchToggle(Identifier);
+            return await Client.SwitchToggle(Identifier);
         }
 
         //
-        public async Task SwitchOn()
+        public async Task<bool> SwitchOn()
         {
             AssertSwitchSocket();
-            await Client.SwitchOn(Identifier);
+            return await Client.SwitchOn(Identifier);
         }
 
         //
-        public async Task SwitchOff()
+        public async Task<bool> SwitchOff()
         {
             AssertSwitchSocket();
-            await Client.SwitchOff(Identifier);
+            return await Client.SwitchOff(Identifier);
         }
         #endregion
 
         #region Radiator Thermostat functionality
         //
-        public async Task SetTargetTemperature(float aTemperatureInCelsius)
+        public async Task<bool> SetTargetTemperature(float aTemperatureInCelsius)
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, Thermostat.CelsiusToTemperatureCode(aTemperatureInCelsius));
+            return await Client.SetTargetTemperature(Identifier, Thermostat.CelsiusToTemperatureCode(aTemperatureInCelsius));
         }
 
-        public async Task SetTargetTemperatureCode(int aCode)
+        public async Task<bool> SetTargetTemperatureCode(int aCode)
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, aCode);
+            return await Client.SetTargetTemperature(Identifier, aCode);
         }
 
-        public async Task RadiatorOn()
+        public async Task<bool> RadiatorOn()
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, (int)Thermostat.Radiator.On);
+            return await Client.SetTargetTemperature(Identifier, (int)Thermostat.Radiator.On);
         }
 
-        public async Task RadiatorOff()
+        public async Task<bool> RadiatorOff()
         {
             AssertRadiatorThermostat();
-            await Client.SetTargetTemperature(Identifier, (int)Thermostat.Radiator.Off);
+            return await Client.SetTargetTemperature(Identifier, (int)Thermostat.Radiator.Off);
         }
 
         #endregion

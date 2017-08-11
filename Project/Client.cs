@@ -33,7 +33,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// <param name="aIdentifier"></param>
         /// <param name="aTemperatureCode"></param>
         /// <returns></returns>
-        public async Task SetTargetTemperature(string aIdentifier, int aTemperatureCode)
+        public async Task<bool> SetTargetTemperature(string aIdentifier, int aTemperatureCode)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -41,7 +41,8 @@ namespace SharpLib.FritzBox.SmartHome
                 throw new UnauthorizedAccessException("Need to authenticate first!");
             }
 
-            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=sethkrtsoll&ain={aIdentifier}&param={aTemperatureCode}");
+            HttpResponseMessage response = await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=sethkrtsoll&ain={aIdentifier}&param={aTemperatureCode}");
+            return response.IsSuccessStatusCode;
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// </summary>
         /// <param name="aIdentifier"></param>
         /// <returns></returns>
-        public async Task SwitchToggle(string aIdentifier)
+        public async Task<bool> SwitchToggle(string aIdentifier)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -57,7 +58,8 @@ namespace SharpLib.FritzBox.SmartHome
                 throw new UnauthorizedAccessException("Need to authenticate first!");
             }
 
-            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchtoggle&ain={aIdentifier}");
+            HttpResponseMessage response = await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchtoggle&ain={aIdentifier}");
+            return response.IsSuccessStatusCode;
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// </summary>
         /// <param name="aIdentifier"></param>
         /// <returns></returns>
-        public async Task SwitchOn(string aIdentifier)
+        public async Task<bool> SwitchOn(string aIdentifier)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -73,7 +75,8 @@ namespace SharpLib.FritzBox.SmartHome
                 throw new UnauthorizedAccessException("Need to authenticate first!");
             }
 
-            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchon&ain={aIdentifier}");
+            HttpResponseMessage response = await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchon&ain={aIdentifier}");
+            return response.IsSuccessStatusCode;
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace SharpLib.FritzBox.SmartHome
         /// </summary>
         /// <param name="aIdentifier"></param>
         /// <returns></returns>
-        public async Task SwitchOff(string aIdentifier)
+        public async Task<bool> SwitchOff(string aIdentifier)
         {
             // TODO: try the query before in case no login needed?
             if (string.IsNullOrEmpty(SessionId))
@@ -89,7 +92,8 @@ namespace SharpLib.FritzBox.SmartHome
                 throw new UnauthorizedAccessException("Need to authenticate first!");
             }
 
-            await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchoff&ain={aIdentifier}");
+            HttpResponseMessage response = await GetAsync($"webservices/homeautoswitch.lua?sid={SessionId}&switchcmd=setswitchoff&ain={aIdentifier}");
+            return response.IsSuccessStatusCode;
         }
 
 
