@@ -86,11 +86,16 @@ namespace FritzBoxDemo
                 iTextBoxUrl.Enabled = false; // Tell the user this can't be changed any more
             }
 
+            await Authenticate();
+        }
+
+        async Task Authenticate()
+        {
             await iClient.Authenticate(iTextBoxLogin.Text, iTextBoxPassword.Text);
             iLabelSessionId.Text = "Session ID: " + iClient.SessionId;
             await UpdateDeviceList();
         }
-        
+
         /// <summary>
         /// Update our device list
         /// </summary>
@@ -247,11 +252,6 @@ namespace FritzBoxDemo
             UpdateControls();
         }
 
-        private void iTreeViewDevices_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-
-        }
-
         private async void iButtonSwitchToggle_Click(object sender, EventArgs e)
         {
             if (iTreeViewDevices.SelectedNode==null
@@ -262,7 +262,14 @@ namespace FritzBoxDemo
 
             // Toggle our switch if valid
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            await device.SwitchToggle();
+            if (!await device.SwitchToggle())
+            {
+                // Authenticate anew before trying one last time
+                await Authenticate();
+                SelectDevice(device.Identifier);
+                // I reckon we should still be able to use that device even though our device list was updated
+                await device.SwitchToggle();
+            }
         }
 
         private async void iButtonSwitchOn_Click(object sender, EventArgs e)
@@ -275,7 +282,13 @@ namespace FritzBoxDemo
 
             // Switch on if valid
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            await device.SwitchOn();
+            if (!await device.SwitchOn())
+            {
+                // Authenticate anew before trying one last time
+                await Authenticate();
+                SelectDevice(device.Identifier);
+                await device.SwitchOn();
+            }
         }
 
         /// <summary>
@@ -293,7 +306,13 @@ namespace FritzBoxDemo
 
             // Switch off if valid
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            await device.SwitchOff();
+            if (await device.SwitchOff())
+            {
+                // Authenticate anew before trying one last time
+                await Authenticate();
+                SelectDevice(device.Identifier);
+                await device.SwitchOff();
+            }
         }
 
         /// <summary>
@@ -331,7 +350,13 @@ namespace FritzBoxDemo
             }
 
             SmartHome.Device device = (SmartHome.Device)iTreeViewDevices.SelectedNode.Tag;
-            await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);
+            if (!await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value))
+            {
+                // Authenticate anew before trying one last time
+                await Authenticate();
+                SelectDevice(device.Identifier);
+                await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);
+            }
             await UpdateDeviceList(device.Identifier);
         }
 
@@ -355,12 +380,24 @@ namespace FritzBoxDemo
             if (thermostat == SmartHome.Thermostat.Radiator.Regulated)
             {
                 // Set target temperature
-                await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);
+                if (!await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value))
+                {
+                    // Authenticate anew before trying one last time
+                    await Authenticate();
+                    SelectDevice(device.Identifier);
+                    await device.SetTargetTemperature((float)iNumericUpDownTemperature.Value);
+                }
             }
             else
             {
                 // Turn it on of off
-                await device.SetTargetTemperatureCode((int)thermostat);
+                if (!await device.SetTargetTemperatureCode((int)thermostat))
+                {
+                    // Authenticate anew before trying one last time
+                    await Authenticate();
+                    SelectDevice(device.Identifier);
+                    await device.SetTargetTemperatureCode((int)thermostat);
+                }
             }
 
             await UpdateDeviceList(device.Identifier);

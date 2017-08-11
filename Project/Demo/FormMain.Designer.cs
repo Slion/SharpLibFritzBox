@@ -117,7 +117,6 @@
             this.iTreeViewDevices.Size = new System.Drawing.Size(451, 436);
             this.iTreeViewDevices.TabIndex = 3;
             this.iTreeViewDevices.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.iTreeViewDevices_AfterSelect);
-            this.iTreeViewDevices.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.iTreeViewDevices_NodeMouseDoubleClick);
             // 
             // iLabelSessionId
             // 

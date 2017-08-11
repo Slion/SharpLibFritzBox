@@ -2,36 +2,50 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>SharpLibFritzBox</id>
-        <version>1.1.1</version>
-        <title>AVM Fritz!Box Library</title>
+        <version>1.1.2</version>
+        <title>AVM FRITZ!Box Library</title>
         <authors>Stéphane Lenclud</authors>
         <owners>Stéphane Lenclud</owners>
         <licenseUrl>http://www.gnu.org/copyleft/gpl.html</licenseUrl>
         <projectUrl>https://github.com/Slion/SharpLibFritzBox</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Class library providing access to some Fritz!Box Smart Home functionality.</description>
-        <releaseNotes>Initial release.
-Changed some method names.        
-</releaseNotes>
+        <releaseNotes>        
+        Still have to figure out how to package that properly for .NET Standard.
+        Only tested against .NET Framework 4.6.1. Though I reckon It should work all the same on most other .NET platforms.
+        </releaseNotes>
         <copyright>Stéphane Lenclud</copyright>
         <language />
         <tags>FritzBox AVM Smart Home DECT</tags>
+
+      <!--
         <dependencies>
-            <dependency id="NETStandard.Library" version="1.6.1" />
-            <dependency id="System.Security.Cryptography.Algorithms" version="4.3.0" />
-            <dependency id="System.Xml.XmlSerializer" version="4.3.0" />
+            <dependency id="NETStandard.Library" version="1.6.1" />          
+            <dependency id="System.Security.Cryptography.Algorithms" version="4.3.0" />            
+            <dependency id="System.Xml.XmlSerializer" version="4.3.0" />          
         </dependencies>
+          -->
+          
+      <!--
+    Not sure if we should use dependencies or explicit reference?
+    
+      <references>
+        <reference file="System.Net.Http.dll"/>
+        <reference file="SharpLibFritzBox.dll"/>
+      </references>
+      -->
+      
+      <frameworkAssemblies>
+        <frameworkAssembly assemblyName="System.Net.Http"  />
+        <frameworkAssembly assemblyName="System.ServiceModel" />
+        <frameworkAssembly assemblyName="System.Xml.Serialization" />
+      </frameworkAssemblies>
+            
     </metadata>
     <files>
-        <file src="..\Project\bin\Release\SharpLibFritzBox.dll" target="lib\net40\SharpLibFritzBox.dll" />
+        <file src="..\Project\bin\Release\SharpLibFritzBox.dll" target="lib\net461" />
     </files>
 
-    <!--
-    Not sure if we should use dependencies or explicit reference?
-  
-    <references>
-        <reference file="System.Net.Htpp.dll"/>
-        <reference file="SharpLibFritzBox.dll"/>
-    </references>
-    -->
+
+
 </package>
